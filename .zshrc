@@ -70,7 +70,7 @@ PATH="/usr/local/bin:$PATH:./node_modules/.bin";
 
 ## Yarn
 # PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-alias yarn="echo update the PATH in ~/.zshrc"
+# alias yarn="echo update the PATH in ~/.zshrc"
 
 # Custom bins
 PATH="$PATH:$HOME/.bin";
@@ -180,3 +180,5 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 # . "$(brew --prefix)/etc/bash_completion"
 # fi
 source ~/.zshrc.private
+alias yarn="newt exec yarn"
+alias npm="newt exec npm"
