@@ -11,7 +11,7 @@ set incsearch
 set ignorecase
 set hlsearch
 set noerrorbells
-set relativenumber
+" set relativenumber
 set nowrap
 set mouse=a
 " colorscheme mustang

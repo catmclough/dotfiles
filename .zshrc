@@ -156,9 +156,6 @@ alias yav="yarn run validate";
 alias yoff="yarn add --offline";
 alias ypm="echo \"Installing deps without lockfile and ignoring engines\" && yarn install --no-lockfile --ignore-engines"
 
-## use hub for git
-alias git=hub
-
 # Custom functions
 mg () { mkdir "$@" && cd "$@" || exit; }
 cdl() { cd "$@" && ll; }

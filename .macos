@@ -3,7 +3,7 @@
 # ~/.macos — https://mths.be/macos
 # Modified by Kent C. Dodds
 # Run without downloading:
-# curl https://raw.githubusercontent.com/kentcdodds/dotfiles/HEAD/.macos | bash
+# curl https://raw.githubusercontent.com/catmclough/dotfiles/HEAD/.macos | bash
 
 # Close any open System Preferences panes, to prevent them from overriding
 # settings we’re about to change
@@ -16,19 +16,24 @@ sudo -v
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 ###############################################################################
-# Kent's Customizations                                                       #
+# Cat's Customizations                                                       #
 ###############################################################################
 
-echo "Hello $(whoami)! Let's get you set up."
+echo "===============> Hello $(whoami)! Let's get you set up. <==============="
 
+echo "===============> creating code directory"
 echo "mkdir -p ${HOME}/code"
 mkdir -p "${HOME}/code"
 
-echo "installing homebrew"
+echo "===============> installing homebrew"
 # install homebrew https://brew.sh
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-echo "brew installing git"
+echo "===============> running homebrew follow-up commands"
+(echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> /Users/catm/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+echo "===============> brew installing git"
 # hub: a github-specific version of git
 # libdvdcss: makes handbreak capable of ripping DVDs
 # ripgrep: rg is faster than alternatives
@@ -41,33 +46,63 @@ echo "brew installing git"
 # pgcli: postgres CLI
 # brew install git hub libdvdcss ripgrep imagemagick watchman tree bat \
 # git-delta switchaudio-osx pgcli
-brew install git
+brew install git git-delta
 
-echo "installing nvm"
+echo "===============> generating a new ssh key for GitHub"
+if [ ! -f ~/.ssh/id_ed25519 ]
+then
+	ssh-keygen -t ed25519 -C "catmclough@gmail.com" -f ~/.ssh/id_ed25519
+	eval "$(ssh-agent -s)"
+	touch ~/.ssh/config
+	echo "Host *\n AddKeysToAgent yes\n UseKeychain yes\n IdentityFile ~/.ssh/id_ed25519" | tee ~/.ssh/config
+	ssh-add -K ~/.ssh/id_ed25519
+	echo "run 'pbcopy < ~/.ssh/id_ed25519.pub' and paste that into GitHub"
+else
+    echo "SSH File found at ~/.ssh/id_ed25519. Skipping SSH key generation."
+fi
+
+echo "===============> cloning dotfiles"
+rm -rf ${HOME}/dotfiles
+git clone git@github.com:catmclough/dotfiles.git "${HOME}/dotfiles"
+
+ln -s "${HOME}/dotfiles/.vimrc-parts" "${HOME}/.vimrc-parts"
+ln -s "${HOME}/dotfiles/.vscode" "${HOME}/.vscode"
+ln -s "${HOME}/dotfiles/.gitconfig" "${HOME}/.gitconfig"
+ln -s "${HOME}/dotfiles/.gitignore_global" "${HOME}/.gitignore_global"
+ln -s "${HOME}/dotfiles/.vimrc" "${HOME}/.vimrc"
+ln -s "${HOME}/dotfiles/.zsh_history" "${HOME}/.zsh_history"
+ln -s "${HOME}/dotfiles/.zshrc" "${HOME}/.zshrc"
+
+echo "===============> installing nvm"
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 
-echo "nvm installed? $(command -v nvm)"
+echo "===============> loading nvm so it can be used now without an iterm restart"
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-echo "installing node"
+echo "nvm installed?  => $(command -v nvm) <="
+
+echo "===============> installing node"
 nvm install node
 
 echo "node --version: $(node --version)"
 echo "npm --version: $(npm --version)"
 
-echo "installing a few global npm packages"
+echo "===============> installing yarn globally"
 #npm install --global serve fkill-cli npm-quick-run \
 #semantic-release-cli npm-check-updates
 npm install --global yarn
 
 echo "yarn --version: $(yarn --version)"
 
-echo "installing apps with brew --cask"
+echo "===============> installing apps with brew --cask"
 #brew install --cask alfred google-chrome firefox brave-browser bettertouchtool divvy \
 #bartender itsycal visual-studio-code 1password dash screenflow skype workflowy \
 #sublime-text vlc discord obs handbrake zoom betterzip avibrazil-rdm sip \
 #qlcolorcode qlmarkdown qlstephen quicklook-json webpquicklook \
 #suspicious-package qlvideo spotify focus dropbox front qmoji slack
-brew install --cask zoom spotify
+brew install --cask zoom spotify visual-studio-code 1password
 
 echo "Generating a new SSH key for GitHub"
 ssh-keygen -t ed25519 -C "catmclough@gmail.com" -f ~/.ssh/id_ed25519
@@ -259,8 +294,8 @@ defaults write com.apple.universalaccess HIDScrollZoomModifierMask -int 262144
 defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 
 # Set a blazingly fast keyboard repeat rate
-defaults write NSGlobalDomain KeyRepeat -int 1
-defaults write NSGlobalDomain InitialKeyRepeat -int 10
+defaults write NSGlobalDomain KeyRepeat -int 2
+defaults write NSGlobalDomain InitialKeyRepeat -int 15
 
 # Set language and text formats
 # Note: if you’re in the US, replace `EUR` with `USD`, `Centimeters` with
@@ -423,19 +458,19 @@ defaults write com.apple.finder FXInfoPanesExpanded -dict \
 ###############################################################################
 
 # Enable highlight hover effect for the grid view of a stack (Dock)
-defaults write com.apple.dock mouse-over-hilite-stack -bool true
+# defaults write com.apple.dock mouse-over-hilite-stack -bool true
 
 # Set the icon size of Dock items to 16 pixels
-defaults write com.apple.dock tilesize -int 16
+# defaults write com.apple.dock tilesize -int 16
 
 # Change minimize/maximize window effect
-defaults write com.apple.dock mineffect -string "scale"
+# defaults write com.apple.dock mineffect -string "scale"
 
 # Minimize windows into their application’s icon
-defaults write com.apple.dock minimize-to-application -bool true
+# defaults write com.apple.dock minimize-to-application -bool true
 
 # Enable spring loading for all Dock items
-defaults write com.apple.dock enable-spring-load-actions-on-all-items -bool true
+# defaults write com.apple.dock enable-spring-load-actions-on-all-items -bool true
 
 # Show indicator lights for open applications in the Dock
 defaults write com.apple.dock show-process-indicators -bool true
@@ -449,10 +484,10 @@ defaults write com.apple.dock persistent-apps -array
 defaults write com.apple.dock static-only -bool true
 
 # Don’t animate opening applications from the Dock
-defaults write com.apple.dock launchanim -bool false
+# defaults write com.apple.dock launchanim -bool false
 
 # Speed up Mission Control animations
-defaults write com.apple.dock expose-animation-duration -float 0.1
+# defaults write com.apple.dock expose-animation-duration -float 0.1
 
 # Don’t group windows by application in Mission Control
 # (i.e. use the old Exposé behavior instead)
@@ -492,32 +527,6 @@ defaults write com.apple.dock showLaunchpadGestureEnabled -int 0
 #defaults write com.apple.dock persistent-apps -array-add '{tile-data={}; tile-type="spacer-tile";}'
 # Add a spacer to the right side of the Dock (where the Trash is)
 #defaults write com.apple.dock persistent-others -array-add '{tile-data={}; tile-type="spacer-tile";}'
-
-# Hot corners
-# Possible values:
-#  0: no-op
-#  2: Mission Control
-#  3: Show application windows
-#  4: Desktop
-#  5: Start screen saver
-#  6: Disable screen saver
-#  7: Dashboard
-# 10: Put display to sleep
-# 11: Launchpad
-# 12: Notification Center
-# 1048576 is ⌘ I think
-# Top left screen corner → Desktop
-defaults write com.apple.dock wvous-tl-corner -int 4
-defaults write com.apple.dock wvous-tl-modifier -int 1048576
-# Top right screen corner → Desktop
-defaults write com.apple.dock wvous-tr-corner -int 4
-defaults write com.apple.dock wvous-tr-modifier -int 1048576
-# Bottom left screen corner → Start screen saver
-defaults write com.apple.dock wvous-bl-corner -int 5
-defaults write com.apple.dock wvous-bl-modifier -int 1048576
-# Bottom right screen corner → Put display to sleep
-defaults write com.apple.dock wvous-br-corner -int 10
-defaults write com.apple.dock wvous-br-modifier -int 1048576
 
 ###############################################################################
 # Safari & WebKit                                                             #

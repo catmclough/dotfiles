@@ -1,3 +1,16 @@
-# dotfiles
+#dotfiles
 
-[My fork of] Kent's Doddfiles... get it dot, dodd; yeah you get it.
+My fork of Kent's Dotfiles.
+
+## Instructions 
+
+To run the setup script without downloading anything:
+```bash
+curl https://raw.githubusercontent.com/catmclough/dotfiles/HEAD/.macos | bash
+```
+
+Or to run the setup script from the root directory of this repo
+## 
+```bash
+bash .macos
+```
