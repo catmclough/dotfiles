@@ -77,6 +77,13 @@ source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Custom bins
 PATH="$PATH:$HOME/.bin";
+<<<<<<< HEAD
+=======
+# dotfile bins
+PATH="$PATH:$HOME/.my_bin";
+# npm.im/n
+export N_PREFIX="$HOME/n"; [[ :$PATH: == *"$N_PREFIX/bin"* ]] || PATH="$N_PREFIX/bin:$PATH"  # Added by n-install (see http://git.io/n-install-repo).
+>>>>>>> master
 
 # script kit
 PATH="$PATH:$HOME/.kenv/bin:$HOME/.kit/bin";
@@ -111,7 +118,10 @@ alias yarn-update="yarn upgrade-interactive --latest";
 alias flushdns="sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder"
 alias dont_index_node_modules='find . -type d -name "node_modules" -exec touch "{}/.metadata_never_index" \;';
 alias check-nodemon="ps aux | rg -i '.bin/nodemon'";
+<<<<<<< HEAD
 alias bs="browser-sync start --server --files 'assets/styles/*.css,index.html'"
+=======
+>>>>>>> master
 
 ## git aliases
 function gc { git commit -m "$@"; }
@@ -172,6 +182,7 @@ gif() {
 
 autoload -Uz compinit && compinit
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+<<<<<<< HEAD
 
 source ~/.zshrc.private
 alias yarn="newt exec yarn"
@@ -208,3 +219,13 @@ eval $(thefuck --alias)
 # You can use whatever you want as an alias, like for Mondays:
 eval $(thefuck --alias FUCK)
 eval $(thefuck --alias shit)
+=======
+# Bash completion
+# TODO: couldn't get this to work with zsh...
+# autoload bashcompinit
+# bashcompinit
+# if [ -f "$(brew --prefix)/etc/bash_completion" ]; then
+# . "$(brew --prefix)/etc/bash_completion"
+# fi
+source ~/.zshrc.private
+>>>>>>> master
