@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # ~/.macos — https://mths.be/macos
-# Modified by Kent C. Dodds
+# Modified by Cat McLoughlin
 # Run without downloading:
 # curl https://raw.githubusercontent.com/catmclough/dotfiles/HEAD/.macos | bash
 
@@ -44,6 +44,7 @@ echo "===============> brew installing git"
 # git-delta: A fantastic diff tool
 # switchaudio-osx: allows me to switch the audio device via the command line
 # pgcli: postgres CLI
+
 # brew install git hub libdvdcss ripgrep imagemagick watchman tree bat \
 # git-delta switchaudio-osx pgcli
 brew install git git-delta
