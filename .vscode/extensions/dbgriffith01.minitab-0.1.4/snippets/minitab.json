@@ -1,0 +1,75 @@
+{
+
+	 // Place your snippets for Minitab here. Each snippet is defined under a snippet name and has a prefix, body and 
+	 // description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	 // $1, $2 for tab stops, ${id} and ${id:label} and ${1:label} for variables. Variables with the same id are connected.
+	 // Example:
+	 "Do Loop": {
+		"prefix": "do",
+		"body": [
+			"do ${Index} = 1:${Length}",
+			"  ",
+			"enddo"
+		],
+		"description": "Do Loop for Macros",
+		"scope": "source.minitab"
+	},
+	"If Statement": {
+		"prefix": "if",
+		"body": [
+			"if ${condtion}",
+			"",
+			"else",
+			"",
+			"endif"
+		],
+		"description": "If statement for Macros",
+		"scope": "source.minitab"
+	},
+    "While Loop": {
+		"prefix": "while",
+		"body": [
+			"while ${condition}",
+			" ",
+			" ",
+			"endwhile"
+
+		],
+		"description": "While Loop for Macros",
+		"scope": "source.minitab"
+	},
+	"Capability": {
+			"prefix": "capa",
+			"body": [
+				"capa ${Data} ${Subgroup};",
+				"lspec ${LowerSpec};",
+				"uspec ${UpperSpec}."
+			],
+			"description": "Capability Analysis Normal Distribution",
+			"scope": "source.minitab"
+		},
+		"Regression": {
+			"prefix": "regr",
+			"body": [
+				"regression;",
+				"response ${Response};",
+				"continuous ${Xcontinous};",
+				"categorical ${Xcategorical};",
+				"terms ${Xcontinous} ${Xcategorical}."
+			],
+			"description": "Fit Regession Model",
+			"scope": "source.minitab"
+		},
+		"gmacro": {
+			"prefix": "gmacro",
+			"body": "\ngmacro\n${Name}\n\n#################################\n# Created By:\n# Details:\n#################################\n\nmreset # Ensures Minitab environment is returned to pre-macro settings\n\n\n\n\nendmacro\n",
+			"description": "Global Macro Template",
+			"scope": "source.minitab"
+		},
+		"macro": {
+			"prefix": "macro",
+			"body": "\nmacro\n${Name}\n\n#################################\n# Created By:\n# Details:\n#################################\n\nmcolumn\nmconstant\nmreset # Ensures Minitab environment is returned to pre-macro settings\n\n\n\n\nendmacro\n",
+			"description": "Local Macro Template",
+			"scope": "source.minitab"
+		}
+}

@@ -1,0 +1,74 @@
+{
+	"name": "minitab",
+	"displayName": "Minitab",
+	"description": "Syntax Highlighting for Minitab Command Language",
+	"version": "0.1.4",
+	"icon": "images/terminal-icon.png",
+	"publisher": "dbgriffith01",
+	"galleryBanner": {
+		"color": "#4eaff8",
+		"theme": "dark"
+	},
+	"preview": true,
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/dbgriffith01/Minitab_Syntax.git"
+	},
+	"bugs": {
+		"url": "https://github.com/dbgriffith01/Minitab_Syntax/issues",
+		"email": "dbgriffith01@gmail.com"
+	},
+	"engines": {
+		"vscode": "^1.5.0"
+	},
+	"categories": [
+		"Languages",
+		"Snippets"
+	],
+	"keywords": [
+		"minitab",
+		"macros",
+		"snippets",
+		"syntax highlighter"
+	],
+	"contributes": {
+		"languages": [
+			{
+				"id": "minitab",
+				"aliases": [
+					"Minitab",
+					"minitab"
+				],
+				"extensions": [
+					".mtb",
+					".mac"
+				],
+				"configuration": "./language-configuration.json"
+			}
+		],
+		"grammars": [
+			{
+				"language": "minitab",
+				"scopeName": "source.minitab",
+				"path": "./syntaxes/minitab.tmLanguage"
+			}
+		],
+		"snippets": [
+			{
+				"language": "minitab",
+				"path": "./snippets/minitab.json"
+			}
+		]
+	},
+	"__metadata": {
+		"id": "b3d4bdd0-96db-4574-9e64-d110e9272117",
+		"publisherId": "b79d7d82-6fd7-47c0-b917-dbd57af75f9a",
+		"publisherDisplayName": "Daniel Griffith",
+		"targetPlatform": "undefined",
+		"isApplicationScoped": false,
+		"updated": false,
+		"isPreReleaseVersion": false,
+		"preRelease": false,
+		"installedTimestamp": 1657741518040
+	}
+}
