@@ -178,7 +178,7 @@ alias npm="newt exec npm"
 export BD_USER=catm
 
 # Source Java Version Manager
-source ~/.sdkman/bin/sdkman-init.sh
+# source ~/.sdkman/bin/sdkman-init.sh
 
 # Python
 eval "$(pyenv init -)"

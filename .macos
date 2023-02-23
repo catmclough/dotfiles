@@ -44,10 +44,12 @@ echo "===============> brew installing git"
 # git-delta: A fantastic diff tool
 # switchaudio-osx: allows me to switch the audio device via the command line
 # pgcli: postgres CLI
+# thefuck: auto-correct bash commands
+# zsh-autosuggestions: smart auto-suggestions without a tab needed
 
 # brew install git hub libdvdcss ripgrep imagemagick watchman tree bat \
 # git-delta switchaudio-osx pgcli
-brew install git git-delta
+brew install git git-delta thefuck zsh-autosuggestions
 
 echo "===============> generating a new ssh key for GitHub"
 if [ ! -f ~/.ssh/id_ed25519 ]
@@ -89,6 +91,13 @@ nvm install node
 
 echo "node --version: $(node --version)"
 echo "npm --version: $(npm --version)"
+
+echo "===============> installing pyenv & python 3.8"
+brew install pyenv
+echo "nvm installed?  => $(command -v pyenv) <="
+
+pyenv install 3.8.13
+echo "python3 -V: $(python3 -V)"
 
 echo "===============> installing yarn globally"
 #npm install --global serve fkill-cli npm-quick-run \
