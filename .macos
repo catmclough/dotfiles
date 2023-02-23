@@ -28,7 +28,7 @@ echo "installing homebrew"
 # install homebrew https://brew.sh
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-echo "brew installing stuff"
+echo "brew installing git"
 # hub: a github-specific version of git
 # libdvdcss: makes handbreak capable of ripping DVDs
 # ripgrep: rg is faster than alternatives
@@ -39,28 +39,38 @@ echo "brew installing stuff"
 # git-delta: A fantastic diff tool
 # switchaudio-osx: allows me to switch the audio device via the command line
 # pgcli: postgres CLI
-brew install git hub libdvdcss ripgrep imagemagick watchman tree bat \
-git-delta switchaudio-osx pgcli
+# brew install git hub libdvdcss ripgrep imagemagick watchman tree bat \
+# git-delta switchaudio-osx pgcli
+brew install git
 
-echo "installing node (via n-install)"
-curl -L https://git.io/n-install | bash
+echo "installing nvm"
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+
+echo "nvm installed? $(command -v nvm)"
+
+echo "installing node"
+nvm install node
 
 echo "node --version: $(node --version)"
 echo "npm --version: $(npm --version)"
 
 echo "installing a few global npm packages"
-npm install --global serve fkill-cli npm-quick-run \
-semantic-release-cli npm-check-updates
+#npm install --global serve fkill-cli npm-quick-run \
+#semantic-release-cli npm-check-updates
+npm install --global yarn
+
+echo "yarn --version: $(yarn --version)"
 
 echo "installing apps with brew --cask"
-brew install --cask alfred google-chrome firefox brave-browser bettertouchtool divvy \
-bartender itsycal visual-studio-code 1password dash screenflow skype workflowy \
-sublime-text vlc discord obs handbrake zoom betterzip avibrazil-rdm sip \
-qlcolorcode qlmarkdown qlstephen quicklook-json webpquicklook \
-suspicious-package qlvideo spotify focus dropbox front qmoji slack
+#brew install --cask alfred google-chrome firefox brave-browser bettertouchtool divvy \
+#bartender itsycal visual-studio-code 1password dash screenflow skype workflowy \
+#sublime-text vlc discord obs handbrake zoom betterzip avibrazil-rdm sip \
+#qlcolorcode qlmarkdown qlstephen quicklook-json webpquicklook \
+#suspicious-package qlvideo spotify focus dropbox front qmoji slack
+brew install --cask zoom spotify
 
 echo "Generating a new SSH key for GitHub"
-ssh-keygen -t ed25519 -C "me+github@kentcdodds.com" -f ~/.ssh/id_ed25519
+ssh-keygen -t ed25519 -C "catmclough@gmail.com" -f ~/.ssh/id_ed25519
 eval "$(ssh-agent -s)"
 touch ~/.ssh/config
 echo "Host *\n AddKeysToAgent yes\n UseKeychain yes\n IdentityFile ~/.ssh/id_ed25519" | tee ~/.ssh/config
@@ -70,18 +80,12 @@ echo "run 'pbcopy < ~/.ssh/id_ed25519.pub' and paste that into GitHub"
 echo "cloning dotfiles"
 git clone git@github.com:kentcdodds/dotfiles.git "${HOME}/dotfiles"
 ln -s "${HOME}/dotfiles/.zshrc" "${HOME}/.zshrc"
+ln -s "${HOME}/dotfiles/.zsh_history" "${HOME}/.zsh_history"
 ln -s "${HOME}/dotfiles/.gitignore_global" "${HOME}/.gitignore_global"
 ln -s "${HOME}/dotfiles/.gitconfig" "${HOME}/.gitconfig"
 ln -s "${HOME}/dotfiles/.my_bin" "${HOME}/.my_bin"
 ln -s "${HOME}/dotfiles/.vimrc" "${HOME}/.vimrc"
 ln -s "${HOME}/dotfiles/.vimrc-parts" "${HOME}/.vimrc-parts"
-ln -s "${HOME}/dotfiles/.ripgreprc" "${HOME}/.ripgreprc"
-
-# get bat and delta all configured
-mkdir -p "${HOME}/.config/bat/themes"
-ln -s "${HOME}/dotfiles/.config/bat/config" "${HOME}/.config/bat/config"
-git clone https://github.com/batpigandme/night-owlish "${HOME}/.config/bat/themes/night-owlish"
-bat cache --build
 
 echo "making system modifications:"
 
@@ -604,40 +608,15 @@ defaults write com.apple.Safari SendDoNotTrackHTTPHeader -bool true
 defaults write com.apple.Safari InstallExtensionUpdatesAutomatically -bool true
 
 ###############################################################################
-# Mail                                                                        #
-###############################################################################
-
-# Disable send and reply animations in Mail.app
-# defaults write com.apple.mail DisableReplyAnimations -bool true
-# defaults write com.apple.mail DisableSendAnimations -bool true
-
-# Copy email addresses as `foo@example.com` instead of `Foo Bar <foo@example.com>` in Mail.app
-defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false
-
-# Add the keyboard shortcut ⌘ + Enter to send an email in Mail.app
-# defaults write com.apple.mail NSUserKeyEquivalents -dict-add "Send" "@\U21a9"
-
-# Display emails in threaded mode, sorted by date (oldest at the top)
-defaults write com.apple.mail DraftsViewerAttributes -dict-add "DisplayInThreadedMode" -string "yes"
-# defaults write com.apple.mail DraftsViewerAttributes -dict-add "SortedDescending" -string "yes"
-# defaults write com.apple.mail DraftsViewerAttributes -dict-add "SortOrder" -string "received-date"
-
-# Disable inline attachments (just show the icons)
-# defaults write com.apple.mail DisableInlineAttachmentViewing -bool true
-
-# Disable automatic spell checking
-# defaults write com.apple.mail SpellCheckingBehavior -string "NoSpellCheckingEnabled"
-
-###############################################################################
 # Spotlight                                                                   #
 ###############################################################################
 
 # Hide Spotlight tray-icon (and subsequent helper)
-sudo chmod 600 /System/Library/CoreServices/Search.bundle/Contents/MacOS/Search
+# sudo chmod 600 /System/Library/CoreServices/Search.bundle/Contents/MacOS/Search
 # Disable Spotlight indexing for any volume that gets mounted and has not yet
 # been indexed before.
 # Use `sudo mdutil -i off "/Volumes/foo"` to stop indexing any volume.
-sudo defaults write /.Spotlight-V100/VolumeConfiguration Exclusions -array "/Volumes"
+# sudo defaults write /.Spotlight-V100/VolumeConfiguration Exclusions -array "/Volumes"
 # Change indexing order and disable some search results
 # Yosemite-specific search results (remove them if you are using macOS 10.9 or older):
 #   MENU_DEFINITION
@@ -646,35 +625,35 @@ sudo defaults write /.Spotlight-V100/VolumeConfiguration Exclusions -array "/Vol
 #   MENU_SPOTLIGHT_SUGGESTIONS (send search queries to Apple)
 #   MENU_WEBSEARCH             (send search queries to Apple)
 #   MENU_OTHER
-defaults write com.apple.spotlight orderedItems -array \
-  '{"enabled" = 1;"name" = "APPLICATIONS";}' \
-  '{"enabled" = 1;"name" = "SYSTEM_PREFS";}' \
-  '{"enabled" = 1;"name" = "DIRECTORIES";}' \
-  '{"enabled" = 1;"name" = "PDF";}' \
-  '{"enabled" = 1;"name" = "FONTS";}' \
-  '{"enabled" = 0;"name" = "DOCUMENTS";}' \
-  '{"enabled" = 0;"name" = "MESSAGES";}' \
-  '{"enabled" = 0;"name" = "CONTACT";}' \
-  '{"enabled" = 0;"name" = "EVENT_TODO";}' \
-  '{"enabled" = 0;"name" = "IMAGES";}' \
-  '{"enabled" = 0;"name" = "BOOKMARKS";}' \
-  '{"enabled" = 0;"name" = "MUSIC";}' \
-  '{"enabled" = 0;"name" = "MOVIES";}' \
-  '{"enabled" = 0;"name" = "PRESENTATIONS";}' \
-  '{"enabled" = 0;"name" = "SPREADSHEETS";}' \
-  '{"enabled" = 0;"name" = "SOURCE";}' \
-  '{"enabled" = 0;"name" = "MENU_DEFINITION";}' \
-  '{"enabled" = 0;"name" = "MENU_OTHER";}' \
-  '{"enabled" = 0;"name" = "MENU_CONVERSION";}' \
-  '{"enabled" = 0;"name" = "MENU_EXPRESSION";}' \
-  '{"enabled" = 0;"name" = "MENU_WEBSEARCH";}' \
-  '{"enabled" = 0;"name" = "MENU_SPOTLIGHT_SUGGESTIONS";}'
+#defaults write com.apple.spotlight orderedItems -array \
+#  '{"enabled" = 1;"name" = "APPLICATIONS";}' \
+#  '{"enabled" = 1;"name" = "SYSTEM_PREFS";}' \
+#  '{"enabled" = 1;"name" = "DIRECTORIES";}' \
+#  '{"enabled" = 1;"name" = "PDF";}' \
+#  '{"enabled" = 1;"name" = "FONTS";}' \
+#  '{"enabled" = 0;"name" = "DOCUMENTS";}' \
+#  '{"enabled" = 0;"name" = "MESSAGES";}' \
+#  '{"enabled" = 0;"name" = "CONTACT";}' \
+#  '{"enabled" = 0;"name" = "EVENT_TODO";}' \
+#  '{"enabled" = 0;"name" = "IMAGES";}' \
+#  '{"enabled" = 0;"name" = "BOOKMARKS";}' \
+#  '{"enabled" = 0;"name" = "MUSIC";}' \
+#  '{"enabled" = 0;"name" = "MOVIES";}' \
+#  '{"enabled" = 0;"name" = "PRESENTATIONS";}' \
+#  '{"enabled" = 0;"name" = "SPREADSHEETS";}' \
+#  '{"enabled" = 0;"name" = "SOURCE";}' \
+#  '{"enabled" = 0;"name" = "MENU_DEFINITION";}' \
+#  '{"enabled" = 0;"name" = "MENU_OTHER";}' \
+#  '{"enabled" = 0;"name" = "MENU_CONVERSION";}' \
+#  '{"enabled" = 0;"name" = "MENU_EXPRESSION";}' \
+#  '{"enabled" = 0;"name" = "MENU_WEBSEARCH";}' \
+#  '{"enabled" = 0;"name" = "MENU_SPOTLIGHT_SUGGESTIONS";}'
 # Load new settings before rebuilding the index
-killall mds > /dev/null 2>&1
+#killall mds > /dev/null 2>&1
 # Make sure indexing is enabled for the main volume
-sudo mdutil -i on / > /dev/null
+#sudo mdutil -i on / > /dev/null
 # Rebuild the index from scratch
-sudo mdutil -E / > /dev/null
+#sudo mdutil -E / > /dev/null
 
 ###############################################################################
 # Terminal & iTerm 2                                                          #
@@ -733,7 +712,7 @@ defaults write com.apple.Terminal ShowLineMarks -int 0
 # open "${HOME}/init/Solarized Dark.itermcolors"
 
 # Don’t display the annoying prompt when quitting iTerm
-# defaults write com.googlecode.iterm2 PromptOnQuit -bool false
+defaults write com.googlecode.iterm2 PromptOnQuit -bool false
 
 ###############################################################################
 # Time Machine                                                                #
@@ -786,7 +765,7 @@ defaults write com.apple.TextEdit PlainTextEncodingForWrite -int 4
 # defaults write com.apple.DiskUtility advanced-image-options -bool true
 
 # Auto-play videos when opened with QuickTime Player
-defaults write com.apple.QuickTimePlayerX MGPlayMovieOnOpen -bool true
+# defaults write com.apple.QuickTimePlayerX MGPlayMovieOnOpen -bool true
 
 ###############################################################################
 # Mac App Store                                                               #
@@ -802,7 +781,7 @@ defaults write com.apple.appstore WebKitDeveloperExtras -bool true
 defaults write com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true
 
 # Check for software updates daily, not just once per week
-defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
+# defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
 
 # Download newly available updates in background
 defaults write com.apple.SoftwareUpdate AutomaticDownload -int 1
@@ -811,7 +790,7 @@ defaults write com.apple.SoftwareUpdate AutomaticDownload -int 1
 defaults write com.apple.SoftwareUpdate CriticalUpdateInstall -int 1
 
 # Automatically download apps purchased on other Macs
-defaults write com.apple.SoftwareUpdate ConfigDataInstall -int 1
+# defaults write com.apple.SoftwareUpdate ConfigDataInstall -int 1
 
 # Turn on app auto-update
 defaults write com.apple.commerce AutoUpdate -bool true
@@ -856,8 +835,8 @@ defaults write com.google.Chrome.canary AppleEnableMouseSwipeNavigateWithScrolls
 # defaults write com.google.Chrome.canary DisablePrintPreview -bool true
 
 # Expand the print dialog by default
-# defaults write com.google.Chrome PMPrintingExpandedStateForPrint2 -bool true
-# defaults write com.google.Chrome.canary PMPrintingExpandedStateForPrint2 -bool true
+defaults write com.google.Chrome PMPrintingExpandedStateForPrint2 -bool true
+defaults write com.google.Chrome.canary PMPrintingExpandedStateForPrint2 -bool true
 
 ###############################################################################
 # Kill affected applications                                                  #
@@ -870,7 +849,6 @@ for app in "Activity Monitor" \
   "Contacts" \
   "Dock" \
   "Finder" \
-  "Mail" \
   "Messages" \
   "Photos" \
   "Safari" \
@@ -882,14 +860,6 @@ echo "Done. Note that some of these changes require a logout/restart to take eff
 
 
 printf "TODO:\n\
-install: \n\
-  battery indicator (App Store) \n\
-  Gifski (App Store) \n\
-  Runcat (App Store) \n\
-  Todoist (App Store) \n\
-  Webcam Settings (App Store) \n\
-  Audacity (https://www.audacityteam.org/download/) \n\
-\n\
 Restart Terminal.app\n\
 copy git config from your backup/re-login \n\
 copy .npmrc from your backup/re-login \n\

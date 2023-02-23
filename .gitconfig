@@ -43,3 +43,18 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[http "https://stash.prod.netflix.net:7006"]
+	sslCert = /Users/catm/.metatron/user.crt
+	sslKey = /Users/catm/.metatron/user.key
+	sslVerify = true
+[url "https://stash.prod.netflix.net:7006/scm"]
+	insteadOf = ssh://git@stash.corp.netflix.com:7999
+[url "https://stash.prod.netflix.net:7006"]
+	insteadOf = https://stash.corp.netflix.com
+	insteadOf = https://stash.corp.netflix.com:7006
+	insteadOf = https://stash.corp.netflix.com:7004
+	insteadOf = https://stash.netflix.com
+[http "https://stash-corp-ci-stable.prod.netflix.net:7006"]
+	sslCert = /Users/catm/.metatron/user.crt
+	sslKey = /Users/catm/.metatron/user.key
+	sslVerify = true
