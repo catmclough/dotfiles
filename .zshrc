@@ -77,10 +77,6 @@ source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Custom bins
 PATH="$PATH:$HOME/.bin";
-# dotfile bins
-PATH="$PATH:$HOME/.my_bin";
-# npm.im/n
-export N_PREFIX="$HOME/n"; [[ :$PATH: == *"$N_PREFIX/bin"* ]] || PATH="$N_PREFIX/bin:$PATH"  # Added by n-install (see http://git.io/n-install-repo).
 
 # script kit
 PATH="$PATH:$HOME/.kenv/bin:$HOME/.kit/bin";
