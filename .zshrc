@@ -29,7 +29,7 @@ setEmoji () {
 }
 
 newRandomEmoji () {
-  setEmoji "$(random_element 😅 👽 🔥 🚀 👻 ⛄ 👾 🍔 😄 🍰 🐑 😎 🏎 🤖 😇 😼 💪 🦄 🥓 🌮 🎉 💯 ⚛️ 🐠 🐳 🐿 🥳 🤩 🤯 🤠 👨‍💻 🦸‍ 🧝‍ 🧞‍ 🧙‍ 👨‍🚀 👨‍🔬 🕺 🦁 🐶 🐵 🐻 🦊 🐙 🦎 🦖 🦕 🦍 🦈 🐊 🦂 🐍 🐢 🐘 🐉 🦚 ✨ ☄️ ⚡️ 💥 💫 🧬 🔮 ⚗️ 🎊 🔭 ⚪️ 🔱)"
+  setEmoji "$(random_element 👽 🔥 🚀 👾 🍔 🐑 😎 🏎 🤖 😇 🦄  🌮 💯 ⚛️  🐠 🐳 🐿 🥳 🤩 🤯 🤠 💻 🦸‍ 🧞‍  🚀 🔬 🕺 🦁 🐶 🐵 🐻 🦊 🐙 🦎 🦖 🦕 🦍 🦈 🐊 🐍 🐢 🐘 🐉 🦜 🦧 🦭 🦥 🦦 🦞 🥑 🍶 🥊 🦚 ✨ ☄️ ⚡️ 💥 💫 🧬 🔮 🔭 ⚪️ ⚽️ 🎧 🛻 🛟  🌋 🎢 🏕 🌸 🏄🏼‍♂️ 🪴 🌊 🌈 🇫🇷 🏁 🇸🇿 🧢 🇯🇵 ☘️  🇮🇪)"
 }
 
 newRandomEmoji
@@ -67,6 +67,9 @@ setopt HIST_IGNORE_DUPS
 # PATH ALTERATIONS
 ## Node
 PATH="/usr/local/bin:$PATH:./node_modules/.bin";
+
+# ZSH Auto-Suggestions
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 ## Yarn
 # PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
@@ -112,6 +115,7 @@ alias yarn-update="yarn upgrade-interactive --latest";
 alias flushdns="sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder"
 alias dont_index_node_modules='find . -type d -name "node_modules" -exec touch "{}/.metadata_never_index" \;';
 alias check-nodemon="ps aux | rg -i '.bin/nodemon'";
+alias bs="browser-sync start --server --files 'assets/styles/*.css,index.html'"
 
 ## git aliases
 function gc { git commit -m "$@"; }
@@ -172,13 +176,39 @@ gif() {
 
 autoload -Uz compinit && compinit
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
-# Bash completion
-# TODO: couldn't get this to work with zsh...
-# autoload bashcompinit
-# bashcompinit
-# if [ -f "$(brew --prefix)/etc/bash_completion" ]; then
-# . "$(brew --prefix)/etc/bash_completion"
-# fi
+
 source ~/.zshrc.private
 alias yarn="newt exec yarn"
 alias npm="newt exec npm"
+
+# BDP Upsername
+export BD_USER=catm
+
+# Source Java Version Manager
+source ~/.sdkman/bin/sdkman-init.sh
+
+# Python
+eval "$(pyenv init -)"
+
+# Airtable CLI - get field IDs with jq
+at_to_bdpschema() {
+  read atschema
+
+  echo $atschema | jq .fields | jq 'map((.name|ascii_downcase|sub("\\s+"; "_"; "g")) + ": " + .id)' | jq '.[]' -r
+}
+
+at_field_names() {
+  read atschema
+
+  echo $atschema | jq .fields | jq 'map(.id + ": " + .name)' | jq '.[]' -r
+}
+
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+eval $(thefuck --alias)
+# You can use whatever you want as an alias, like for Mondays:
+eval $(thefuck --alias FUCK)
+eval $(thefuck --alias shit)
