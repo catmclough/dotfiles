@@ -172,6 +172,7 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
 alias yarn="newt exec yarn"
 alias npm="newt exec npm"
+alias node='newt exec node'
 
 # BDP Upsername
 export BD_USER=catm

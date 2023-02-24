@@ -868,4 +868,5 @@ echo "Done. Note that some of these changes require a logout/restart to take eff
 printf "TODO:\n\
 Restart Computer\n\
 Login to literally everything \n\
+Got to go/setup for additional Netflix specific install instructions (Metatron etc.)
 "
