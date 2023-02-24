@@ -170,7 +170,6 @@ gif() {
 autoload -Uz compinit && compinit
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
-source ~/.zshrc.private
 alias yarn="newt exec yarn"
 alias npm="newt exec npm"
 
