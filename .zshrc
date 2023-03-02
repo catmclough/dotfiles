@@ -77,6 +77,7 @@ source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Custom bins
 PATH="$PATH:$HOME/.bin";
+PATH="$PATH:$HOME/.local/bin"
 
 # script kit
 PATH="$PATH:$HOME/.kenv/bin:$HOME/.kit/bin";

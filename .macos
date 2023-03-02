@@ -112,7 +112,7 @@ echo "===============> installing apps with brew --cask"
 #sublime-text vlc discord obs handbrake zoom betterzip avibrazil-rdm sip \
 #qlcolorcode qlmarkdown qlstephen quicklook-json webpquicklook \
 #suspicious-package qlvideo spotify focus dropbox front qmoji slack
-brew install --cask zoom spotify visual-studio-code
+brew install --cask zoom spotify visual-studio-code rectangle
 
 echo "===============> making system modifications:"
 
