@@ -64,11 +64,8 @@ path=(
 )
 export PATH
 
-# ZSH Auto-Suggestions (lazy loading)
-zsh_autosuggestions() {
-    source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-    zsh_autosuggestions() { }
-}
+# ZSH Auto-Suggestions
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # CDPATH ALTERATIONS
 CDPATH=.:$HOME:$HOME/code:$HOME/code/epic-react:$HOME/code/testingjavascript:$HOME/Desktop
